@@ -839,14 +839,13 @@ void t2CallShowEnv() {
     //    drawVOC(sgp.TVOC, 185, 195);f
     //    tft.drawString(title5, 225, 235, GFXFF); // Print the test text in the custom font
 
-    tft.drawString("RH ", xpos + 115, 214, GFXFF); // Print the test text in the custom font
-    drawH(hum, xpos + 121, 195);
-    tft.drawString("%", xpos + 154, 214, GFXFF);
+    tft.drawString("RH", 148, 235, GFXFF); // Print the test text in the custom font
+    drawH(hum, 124, 195);
+    tft.drawString("%", 163, 215, GFXFF);
 
-    tft.drawString("T ", xpos + 115, 235, GFXFF); // Print the test text in the custom font
-    drawT(temp, xpos + 121, 214);
-    tft.drawString("C", xpos + 153, 235, GFXFF);
-
+    tft.drawString("T", 197, 235, GFXFF); // Print the test text in the custom font
+    drawT(temp, 183, 195);
+    tft.drawString("C", 218, 215, GFXFF);
     //Clear Stage
     //THAI AQI 5 level
     ind.createSprite(320, 10);
@@ -902,13 +901,13 @@ void t7showTime() {
   unsigned long NowTime = _epoch + ((millis() - time_s) / 1000) + (7 * 3600);
   String timeS = "";
   if (connectWifi == false) {
-    timeS = a0(day(NowTime)) + "/" + a0(month(NowTime)) + "/" + String(year(NowTime)) + " " + a0(hour(NowTime)) + ":" + a0(minute(NowTime)) + ":" + a0(second(NowTime));
+    timeS = a0(day(NowTime)) + "/" + a0(month(NowTime)) + "/" + String(year(NowTime)) + "  [" + a0(hour(NowTime)) + ":" + a0(minute(NowTime)) + "]";
   } else {
     if (!getLocalTime(&timeinfo)) {
       //Serial.println("Failed to obtain time");
       return;
     }
-    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon) + "/" + String(timeinfo.tm_year + 1900) + " " + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + ":" + a0(timeinfo.tm_sec);
+    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
   }
   topNumber.drawString(timeS, 5, 10, GFXFF);
   //Serial.println(timeS);
