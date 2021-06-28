@@ -543,6 +543,10 @@ void setup() {
     pingR = AISnb.pingIP(serverIP);
     //Serial.println(pingR.status);
     if (pingR.status == true) {
+      meta = AISnb.getSignal();
+      if (meta.rssi.toInt() < -90) {
+        connectWifi = true;
+      }
       break;
     } else {
       errorTimeDisplay(nbErrorTime);
