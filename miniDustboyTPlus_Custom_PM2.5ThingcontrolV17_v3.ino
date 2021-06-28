@@ -337,6 +337,9 @@ String read_String(char add)
 void getIP(String IP, String Port, String Data) {
   json = "";
   do {
+    if (AISnb.pingIP(serverIP).status == false) {
+      ESP.restart();
+    }
     UDPSend udp = AISnb.sendUDPmsgStr(IP, Port, Data);
 
     //String nccid = AISnb.getNCCID();
