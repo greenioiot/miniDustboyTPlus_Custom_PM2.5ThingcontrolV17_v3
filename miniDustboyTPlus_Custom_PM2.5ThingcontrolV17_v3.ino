@@ -538,15 +538,9 @@ void setup() {
     _writeEEPROM("147.50.151.130");
   }
   serverIP = read_String(10);
-  pingRESP pingR;
   while (nbErrorTime < 10) {
-    pingR = AISnb.pingIP(serverIP);
-    //Serial.println(pingR.status);
-    if (pingR.status == true) {
-      meta = AISnb.getSignal();
-      if (meta.rssi.toInt() < -90) {
-        connectWifi = true;
-      }
+    meta = AISnb.getSignal();
+    if (meta.rssi.toInt() > -90) {
       break;
     } else {
       errorTimeDisplay(nbErrorTime);
