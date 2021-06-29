@@ -228,8 +228,8 @@ void setupOTA()
     //int progressbar = (progress / 5) % 100;
     //int pro = progress / (total / 100);
 
-    drawUpdate(progressbar, 175, 195);
-    tft.drawString(title5, 220, 235, GFXFF); // Print the test text in the custom font
+    drawUpdate(progressbar, 265, 195);
+    tft.drawString(title5, 310, 235, GFXFF); // Print the test text in the custom font
 
 
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
