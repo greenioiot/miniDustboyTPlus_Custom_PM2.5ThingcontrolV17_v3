@@ -83,7 +83,7 @@ int wtd = 0;
 int maxwtd = 10;
 
 int tftMax = 160;
- 
+
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 
 
@@ -126,7 +126,7 @@ PubSubClient client(wifiClient);
 HardwareSerial_NB_BC95 AISnb;
 
 float temp(NAN), hum(NAN), pres(NAN);
- 
+
 // # Add On
 #include <TimeLib.h>
 #include <ArduinoJson.h>
@@ -514,11 +514,11 @@ void errorTimeDisplay(int i) {
 
 void setup() {
   Serial.begin(115200);
-//  SerialBT.begin(HOSTNAME); //Bluetooth device name
+  //  SerialBT.begin(HOSTNAME); //Bluetooth device name
   //SerialBT.println(HOSTNAME);
   EEPROM.begin(512);
   _initLCD();
- 
+
   pinMode(15, OUTPUT); // turn on PMS7003
   digitalWrite(15, HIGH); // turn on PMS7003
   //delay(500);
@@ -542,7 +542,13 @@ void setup() {
     meta = AISnb.getSignal();
     Serial.print("meta.rssi:"); Serial.println(meta.rssi);
     if (!meta.rssi.equals("N/A")) {
-      if (meta.rssi.toInt() > -90)   break;
+      if (meta.rssi.toInt() > -90) {
+        break;
+      } else {
+        errorTimeDisplay(nbErrorTime);
+        nbErrorTime++;
+        delay(1000);
+      }
     } else {
       errorTimeDisplay(nbErrorTime);
       nbErrorTime++;
@@ -1076,7 +1082,7 @@ void drawUpdate(int num, int x, int y)
   stringUpdate.setTextColor(TFT_ORANGE);
   stringUpdate.setTextSize(1);
   stringUpdate.drawNumber(num, 0, 3);
-  stringUpdate.drawString("%",25,3,GFXFF);
+  stringUpdate.drawString("%", 25, 3, GFXFF);
   stringUpdate.pushSprite(x, y);
   stringUpdate.deleteSprite();
 }
@@ -1091,17 +1097,17 @@ void drawPM10(int num, int x, int y)
   stringPM10.pushSprite(x, y);
   stringPM10.deleteSprite();
 }
- 
+
 void t3CallSendData() {
   digitalWrite(12, HIGH);
   delay(2000);
   digitalWrite(12, LOW);
   composeJson();
-  
+
   tft.setTextColor(0xFFFF);
   int mapX = 315;
   int mapY = 30;
-   Serial.println(WL_CONNECTED); Serial.print("(WiFi.status():"); Serial.println(WiFi.status());
+  Serial.println(WL_CONNECTED); Serial.print("(WiFi.status():"); Serial.println(WiFi.status());
   if (connectWifi == false) {
     if (AISnb.pingIP(serverIP).status == false) {
       ESP.restart();
@@ -1136,9 +1142,9 @@ void t3CallSendData() {
   //tft.drawString(meta.rssi, nbiotWidth, nbiotHeight, GFXFF);
   //delay(3000);
   //tft.fillRect(270,32,32,0x9E4A);
-//  if (connectWifi == true && WiFi.status() == WL_CONNECTED) {
-//    client.disconnect();
-//  }
+  //  if (connectWifi == true && WiFi.status() == WL_CONNECTED) {
+  //    client.disconnect();
+  //  }
 
 }
 void loop() {
