@@ -540,8 +540,9 @@ void setup() {
   serverIP = read_String(10);
   while (nbErrorTime < 10) {
     meta = AISnb.getSignal();
-    if (meta.rssi.toInt() > -90) {
-      break;
+    Serial.print("meta.rssi:"); Serial.println(meta.rssi);
+    if (!meta.rssi.equals("N/A")) {
+      if (meta.rssi.toInt() > -90)   break;
     } else {
       errorTimeDisplay(nbErrorTime);
       nbErrorTime++;
@@ -627,7 +628,6 @@ void setup() {
     Serial.println( F("Connect MQTT Success."));
     client.subscribe("v1/devices/me/rpc/request/+");
   }
-
   }*/
 
 void splash() {
@@ -759,7 +759,6 @@ void composeJson() {
 
 /*void processTele(char jsonTele[])
   {
-
   char *aString = jsonTele;
   Serial.println("OK");
   Serial.print(F("+:topic v1/devices/me/ , "));
