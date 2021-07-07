@@ -913,7 +913,7 @@ void t7showTime() {
       //Serial.println("Failed to obtain time");
       return;
     }
-    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
+    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon+1) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
   }
   topNumber.drawString(timeS, 5, 10, GFXFF);
   //Serial.println(timeS);
