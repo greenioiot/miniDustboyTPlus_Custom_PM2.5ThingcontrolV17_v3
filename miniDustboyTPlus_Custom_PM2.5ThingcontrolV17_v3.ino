@@ -337,9 +337,7 @@ String read_String(char add)
 void getIP(String IP, String Port, String Data) {
   json = "";
   do {
-    if (AISnb.pingIP(serverIP).status == false) {
-      ESP.restart();
-    }
+
     UDPSend udp = AISnb.sendUDPmsgStr(IP, Port, Data);
 
     //String nccid = AISnb.getNCCID();
@@ -542,7 +540,7 @@ void setup() {
     meta = AISnb.getSignal();
     Serial.print("meta.rssi:"); Serial.println(meta.rssi);
     if (!meta.rssi.equals("N/A")) {
-      if (meta.rssi.toInt() > -90) {
+      if (meta.rssi.toInt() > -110) {
         break;
       } else {
         errorTimeDisplay(nbErrorTime);
@@ -913,7 +911,7 @@ void t7showTime() {
       //Serial.println("Failed to obtain time");
       return;
     }
-    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon+1) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
+    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
   }
   topNumber.drawString(timeS, 5, 10, GFXFF);
   //Serial.println(timeS);
@@ -1109,9 +1107,7 @@ void t3CallSendData() {
   int mapY = 30;
   Serial.println(WL_CONNECTED); Serial.print("(WiFi.status():"); Serial.println(WiFi.status());
   if (connectWifi == false) {
-    if (AISnb.pingIP(serverIP).status == false) {
-      ESP.restart();
-    }
+
     int rssi = map(meta.rssi.toInt(), -110, -50, 25, 100);
     if (rssi > 100) rssi = 100;
     if (rssi < 0) rssi = 0;
@@ -1137,14 +1133,14 @@ void t3CallSendData() {
       client.publish("v1/devices/me/telemetry", json.c_str());
     }
   }
-  //  delay(2000);
-  //  tft.fillRect(285, 0, nbiotWidth, nbiotHeight, TFT_BLACK); // Print the test text in the custom font
-  //tft.drawString(meta.rssi, nbiotWidth, nbiotHeight, GFXFF);
-  //delay(3000);
-  //tft.fillRect(270,32,32,0x9E4A);
-  //  if (connectWifi == true && WiFi.status() == WL_CONNECTED) {
-  //    client.disconnect();
-  //  }
+//    delay(2000);
+//    tft.fillRect(285, 0, nbiotWidth, nbiotHeight, TFT_BLACK); // Print the test text in the custom font
+//  tft.drawString(meta.rssi, nbiotWidth, nbiotHeight, GFXFF);
+//  delay(3000);
+//  tft.fillRect(270,32,32,0x9E4A);
+//    if (connectWifi == true && WiFi.status() == WL_CONNECTED) {
+//      client.disconnect();
+//    }
 
 }
 void loop() {
