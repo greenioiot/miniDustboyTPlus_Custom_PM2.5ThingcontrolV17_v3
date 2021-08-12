@@ -337,9 +337,9 @@ String read_String(char add)
 void getIP(String IP, String Port, String Data) {
   json = "";
   do {
-//    if (AISnb.pingIP(serverIP).status == false) {
-//      ESP.restart();
-//    }
+    //    if (AISnb.pingIP(serverIP).status == false) {
+    //      ESP.restart();
+    //    }
     UDPSend udp = AISnb.sendUDPmsgStr(IP, Port, Data);
 
     //String nccid = AISnb.getNCCID();
@@ -568,6 +568,8 @@ void setup() {
     //    ESP.reset();
     //delay(1000);
   }
+  setupWIFI();
+  setupOTA();
   if (nbErrorTime == 10) {
     connectWifi = true;
   }
@@ -582,8 +584,7 @@ void setup() {
     client.setServer( "mqtt.thingcontrol.io", PORT );
   }
 
-  setupWIFI();
-  setupOTA();
+
 
   //  previousMillis = millis();
   hwSerial.begin(9600, SERIAL_8N1, SERIAL1_RXPIN, SERIAL1_TXPIN);
@@ -913,7 +914,7 @@ void t7showTime() {
       //Serial.println("Failed to obtain time");
       return;
     }
-    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon+1) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
+    timeS = a0(timeinfo.tm_mday) + "/" + a0(timeinfo.tm_mon + 1) + "/" + String(timeinfo.tm_year + 1900) + "  [" + a0(timeinfo.tm_hour) + ":" + a0(timeinfo.tm_min) + "]";
   }
   topNumber.drawString(timeS, 5, 10, GFXFF);
   //Serial.println(timeS);
