@@ -75,7 +75,7 @@ Scheduler runner;
 
 int xpos = 0;
 int ypos = 0;
-
+unsigned long ms;
 boolean ready2display = false;
 
 int testNum = 0;
@@ -90,15 +90,15 @@ Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 
 int error;
 
-signal meta ;
+Signal meta ;
 String json = "";
 String attr = "";
 
 HardwareSerial hwSerial(2);
-#define SERIAL1_RXPIN 26
-#define SERIAL1_TXPIN 25 // for thingcontrol board v1.7
-//#define SERIAL1_RXPIN 16
-//#define SERIAL1_TXPIN 17
+//#define SERIAL1_RXPIN 26
+//#define SERIAL1_TXPIN 25 // for thingcontrol board v1.7
+#define SERIAL1_RXPIN 16
+#define SERIAL1_TXPIN 17
 BME280I2C bme;    // Default : forced mode, standby time = 1000 ms
 
 
@@ -577,7 +577,7 @@ void setup() {
   if (!wifiManager.autoConnect(wifiName.c_str())) {
     //Serial.println("failed to connect and hit timeout");
     //reset and try again, or maybe put it to deep sleep
-    //    ESP.reset();
+    ESP.restart();
     //delay(1000);
   }
   setupWIFI();
@@ -719,7 +719,8 @@ void printBME280Data()
   BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
   BME280::PresUnit presUnit(BME280::PresUnit_Pa);
   bme.read(pres, temp, hum, tempUnit, presUnit);
-
+  temp = temp -5;
+  hum = hum +10;
 }
 
 void composeJson() {
@@ -1009,7 +1010,7 @@ void t1CallGetProbe() {
     ESP.restart();
 
   printBME280Data();
-  //  getDataSGP30();
+
 }
 
 void drawPM2_5(int num, int x, int y)
@@ -1123,7 +1124,7 @@ void t3CallSendData() {
   Serial.println(WL_CONNECTED); Serial.print("(WiFi.status():"); Serial.println(WiFi.status());
   if (connectWifi == false) {
     // if (AISnb.pingIP(serverIP).status == false) {
-    //  ESP.restart();
+//    ESP.restart();
     // }
     int rssi = map(meta.rssi.toInt(), -110, -50, 25, 100);
     if (rssi > 100) rssi = 100;
@@ -1169,5 +1170,16 @@ void t3CallSendData() {
 void loop() {
   ArduinoOTA.handle();
   runner.execute();
+
+  ms = millis();
+
+  if (ms % 600000 == 0)
+  {
+
+ 
+    setupWIFI();
+    setupOTA();
+
+  }
 
 }
